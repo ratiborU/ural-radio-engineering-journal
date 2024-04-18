@@ -13,7 +13,7 @@ import { FormattedMessage } from 'react-intl'
 
 const Header = () => {
   const {localeChange} = useLanguageContext();
-  const pathname = usePathname ();
+  const pathname = usePathname();
   const checkActiveLinc = (path: string) => pathname == path ? 'header__group-link header__group-link-active' : 'header__group-link';
 
   return (
