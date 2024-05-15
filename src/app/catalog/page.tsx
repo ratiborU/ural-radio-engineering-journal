@@ -3,6 +3,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getIssues } from '@/data/IssueApi';
 import Issue from '@/components/Issue';
+import SearchInput from '@/components/SearchInput';
 
 const CatalogPage = () => {
   const { data: issues, isLoading, error } = useQuery({
@@ -18,11 +19,14 @@ const CatalogPage = () => {
   }
 
   return (
-    <div className="catalog">
-      {issues?.map((issue, id) => {
-        return <Issue key={id} issue={issue}/>
-      })}
-    </div>
+    <>
+      <SearchInput/>
+      <div className="catalog">
+        {issues?.map((issue, id) => {
+          return <Issue key={id} issue={issue}/>
+        })}
+      </div>
+    </>
   );
 };
 

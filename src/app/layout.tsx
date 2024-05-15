@@ -12,7 +12,13 @@ import icon from '../../public/assets/_logo _urj 2.svg'
 export const metadata: Metadata = {
   title: "Ural Radio Enjeenering journal",
   description: "Рецензируемый международный научно-технический журнал с открытым доступом, посвященный последним достижениям радиоэлектроники и связи.",
+  openGraph: {
+    type: "website",
+    title: "Ural Radio Enjeenering journal",
+    description: "Рецензируемый международный научно-технический журнал с открытым доступом, посвященный последним достижениям радиоэлектроники и связи."
+  }
 };
+
 
 export default function RootLayout({
   children,

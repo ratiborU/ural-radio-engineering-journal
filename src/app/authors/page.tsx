@@ -2,6 +2,11 @@
 import { FormattedMessage } from 'react-intl';
 import image from '../../../public/assets/photo_5269545055805365753_y.jpg'
 import Image from 'next/image';
+import { title } from 'process';
+
+// export const metadata = {
+//   title: "dfdfdfdfd"
+// }
 
 const ForAuthorspage = () => {
   return (

@@ -1,3 +1,11 @@
+import { Metadata } from "next";
+import Head from "next/head";
+
+export const metadata: Metadata = {
+  title: "Ural Radio Enjeenering journal",
+  description: "Рецензируемый международный научно-технический журнал с открытым доступом, посвященный последним достижениям радиоэлектроники и связи.",
+};
+
 const MainPage = () => {
   return (
     <>

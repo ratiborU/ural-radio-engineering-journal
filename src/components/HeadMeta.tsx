@@ -8,7 +8,7 @@ const HeadMeta = () => {
   const pathname = usePathname();
   return (
     <Head>
-      <title>Ural Radio Engineering Journal</title>
+      <title>Ural Radio Engineering Journaldfdf</title>
       <meta name="description" content="Рецензируемый международный научно-технический журнал с открытым доступом, посвященный последним достижениям радиоэлектроники и связи."/>
 
       <meta property="og:title" content="Ural Radio Engineering Journal"/>

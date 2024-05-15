@@ -27,27 +27,6 @@ const ContactsPage = () => {
         <div className="contacts__support-information-email contacts__text"><FormattedMessage id='contacts-support-information-email' /></div>
       </div>
     </div>
-    // <div className="contacts">
-    //   <div className="contacts__mail-address contacts__title">Почтовый адрес</div>
-    //   <div className="contacts__address contacts__text">Россия, 620002, Екатеринбург, ул. Мира, 32, оф. 129а</div>
-    //   <div className="contacts__address contacts__text">Тел.: +7 (343) 375-97-02</div>
-    //   <div className="contacts__address contacts__address_last contacts__text">E-mail: urj@urfu.ru</div>
-    //   <div className="contacts__map">
-    //     <Image src={map} alt="" />
-    //   </div>
-    //   <div className="contacts__editor contacts__title">Представитель редакции</div>
-    //   <div className="contacts__editor-information">
-    //     <div className="contacts__editor-information-name contacts__text">Папуловская Наталья Владимировна</div>
-    //     <div className="contacts__editor-information-phone contacts__text">Телефон: 8 (343) 375-97-02</div>
-    //     <div className="contacts__editor-information-email contacts__text">E-mail: n.v.papulovskaia@urfu.ru</div>
-    //   </div>
-
-    //   <div className="contacts__support contacts__title">Представитель технической поддержки</div>
-    //   <div className="contacts__support-information">
-    //     <div className="contacts__support-information-name contacts__text">Кобелев Андрей Андреевич</div>
-    //     <div className="contacts__support-information-email contacts__text">E-mail: qwink186@icloud.com</div>
-    //   </div>
-    // </div>
   )
 };
 
