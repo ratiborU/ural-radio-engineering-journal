@@ -2,7 +2,7 @@
 import React from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getArticleById } from '@/data/AticleApi';
-import { getCommentsByArticleId, createComment } from '@/data/CommentApi';
+import { getComments, createComment } from '@/data/CommentApi';
 import { IRuEng } from '@/lib/types';
 import { FormattedMessage } from 'react-intl';
 import { useLanguageContext } from '@/i18n/languageContext';
@@ -10,9 +10,11 @@ import Comment from '@/components/Comment';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import Head from 'next/head';
+import Author from '../Author';
+import { transformDate } from '@/lib/utils';
 
 const commentSchema = z.object({
+  author: z.string().min(1, "Комментарий не должен быть пустым"),
   comment: z.string().min(1, "Комментарий не должен быть пустым")
 });
 
@@ -28,24 +30,26 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
   });
 
   const {status: commentsStatus, data: comments, error: commentsError} = useQuery({
-    queryFn: async () => await getCommentsByArticleId(params.id),
+    queryFn: async () => await getComments(Number(params.id), true),
     queryKey: ["pdf", params.id],
     staleTime: Infinity
   });
 
   const mutation = useMutation({
-    mutationFn: (content: string) => createComment(params.id, content)
+    mutationFn: async (data: ICommentSchema) => {
+      console.log(data);
+      // await createComment(Number(params.id), data.comment, data.author, String(new Date()));
+
+    },
+    onSuccess: () => {
+      alert("Ваш отзыв отпрвлен администратору на одобрение и добавление перевода");
+    }
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset: resetComment,
-  } = useForm<ICommentSchema>({resolver: zodResolver(commentSchema)});
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset: resetComment} = useForm<ICommentSchema>({resolver: zodResolver(commentSchema)});
 
   const onSubmit = (data: ICommentSchema) => {
-    mutation.mutate(data.comment);
+    mutation.mutate(data);
     resetComment();
   }
 
@@ -58,25 +62,9 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      {/* <Head>
-        <title lang={lang == "Ru" ? "ru": "en"}>заголовок</title>
-      </Head> */}
-      {/* <Head>
-        <title lang="ru">{`${article?.title[lang as keyof IRuEng]}`}</title>
-        <meta name="description" content={`${article?.content[lang as keyof IRuEng]}`} lang={lang == "Ru" ? "ru": "en"}/>
-        <meta name="keywords" content={`${article?.keywords.map(x => x[lang as keyof IRuEng]).join(',')}`} lang={lang == "Ru" ? "ru": "en"}/>
-
-        <meta property='og:title' content={`${article?.title[lang as keyof IRuEng]}`}/>
-        <meta property='og:description' content={`${article?.content[lang as keyof IRuEng]}`}/>
-        <meta property='og:type' content="article"/>
-        {article?.authors.map((author, i) => <meta key={i} property="article:author" content={author}/>)}
-        {article?.keywords.map((keyword, i) => <meta key={i} property="article:tag" content={keyword[lang as keyof IRuEng]}/>)}
-        
-        <meta property='og:url' content={`http://localhost:5173/catalog/article/${params.id}`}/>
-      </Head> */}
       <div className='article'>
         <p className='article__title'>{article?.title[lang as keyof IRuEng]}</p>
-        <p className='article__authors'>{article?.authors.join(", ")}</p>
+        <p className='article__authors'>{article?.authors.map(x => x.fullname[lang as keyof IRuEng]).join(", ")}</p>
 
         <div className="article__buttons">
           <a className="article__button-link" href={'pdf'}>
@@ -91,17 +79,28 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
               
             
         <p className='article__subtitle'><FormattedMessage id='article-article__annotation'/></p>
-        <p className='article__text'>{article?.content[lang as keyof IRuEng]}</p>
+        <p className='article__text2'>{article?.content[lang as keyof IRuEng]}</p>
+
+        <p className='article__text2'>Дата поступления: {transformDate(article?.dateReceipt)}</p>
+        <p className='article__text2'>Дата принятия: {transformDate(article?.dateAcceptance)}</p>
+        <p className='article__text'>DOI: {article?.doi}</p>
 
         <p className='article__subtitle'><FormattedMessage id='article-article__words'/></p>
         <p className='article__text'>{article?.keywords.map(item => item[lang as keyof IRuEng]).join(", ")}</p>
+        
+        <p className='article__subtitle'>Авторы</p>
+        <div className="article__authors-list">
+        {article?.authors.map((author, i) => <Author author={author} key={`author_${author.fullname.Ru}_${i}`}/>)}
+        </div>
+        
 
         <p className='article__subtitle'><FormattedMessage id='article-article__literature'/></p>
-        <ol className='article__literature-list'>
+        <ol className='article__literature-list article__text'>
           {
             article?.literature.map((item, itemId) => <li className='article__literature-book' key={itemId}>{item}</li>)
           }
         </ol>
+
               
               
         <p className='article__title'><FormattedMessage id='article-article__comments-title'/></p>
@@ -116,6 +115,7 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
         <p className='article__comment-title'><FormattedMessage id='article-article__comments-subtitle2'/></p>
         
         <form onSubmit={handleSubmit(onSubmit)}>
+          <input className='article__input' {...register("author")} type="text" placeholder='Ваше имя...'/>
           <textarea 
             {...register("comment")}
             className='article__comment-field' 

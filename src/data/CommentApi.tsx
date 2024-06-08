@@ -1,36 +1,39 @@
 import axios from "axios";
-import { IComment } from "@/lib/types";
+import { IComment } from "@/lib/typesNew";
+import { serverUrl } from "@/lib/utils";
 
 
-export const getComments = async (): Promise<IComment[]> => {
-  const response = await axios.get(`https://journa-token.onrender.com/comments/get/all?onlyApproved=false`)
+export const getComments = async (id: number, isApproved: boolean): Promise<IComment[]> => {
+  const response = await axios.get(`${serverUrl}/api/v1/comments/get/all?onlyApproved=${isApproved}&articleId=${id}`)
     .then((response) => {
-      return response["data"]["data"];
+      return response.data.data;
     }).catch((error: Error) => {
+      console.log(error);
       throw new Error(error.message);
     }); 
   return response;
 }
 
-export const getCommentsByArticleId = async (id: string): Promise<IComment[]> => {
-  const response = await axios.get(`https://journa-token.onrender.com/comments/get/all?onlyApproved=false`)
-    .then((response) => {
-      return response["data"]["data"].filter((item: IComment) => item["articleId"] == id);
-    }).catch((error: Error) => {
-      throw new Error(error.message);
-    }); 
-  return response;
-}
 
-export const createComment = async (id: string, content: string): Promise<IComment> => {
-  console.log(id, content);
-  const response = axios.post('https://journa-token.onrender.com/comments/create', {
-      "articleId": id,
-      "content": content,
-      "date": "2003-11-01T12:00:00Z"
-    }).then((response) => {
-      return response["data"]["data"];
-    }).catch((error: Error) => {
+export const createComment = async (
+  articleId: number, 
+  content: string, 
+  author: string, 
+  date: string, 
+): Promise<IComment> => {
+  const response = await axios.post(`${serverUrl}/api/v1/comments/create`, {
+    "articleId": articleId,
+    "content": content,
+    "author": author,
+    "date": date,
+  }, {
+    headers: {
+      "Authorization": `${window.localStorage.getItem("token")}`
+    }
+  }).then((response) => {
+      return response["data"];
+    }).catch((error) => {
+      console.log(error);
       throw new Error(error.message);
     }); 
   return response;

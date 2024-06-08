@@ -4,26 +4,27 @@ import Image from 'next/image';
 import { IEditor, IRuEng } from '@/lib/types';
 import { useLanguageContext } from '@/i18n/languageContext';
 import { useQuery } from '@tanstack/react-query';
-import { getFileLink } from '@/data/FileApi';
+import { ICouncil } from '@/lib/typesNew';
 
 type MainEditorProps = {
-  editor: IEditor;
+  editor: ICouncil;
 }
 
 const MainEditor = ({editor} : MainEditorProps) => {
   const {lang} = useLanguageContext();
+  console.log(editor);
 
-  const {status: editorStatus, data: image} = useQuery({
-    queryFn: async () => await getFileLink(editor["imagePathId"]),
-    queryKey: ["image"],
-  });
+  // const {status: editorStatus, data: image} = useQuery({
+  //   queryFn: async () => await getFileLink(editor["imagePathId"]),
+  //   queryKey: ["image"],
+  // });
 
   return (
     <div className="editors__editor editor">
       <div className="editor__block">
         <div className="editor__image">
           <Link href={`/editors/${editor["id"]}`}>
-            <Image className="editor__image-img" src={image!} alt="" />
+            <Image className="editor__image-img" src={''} alt="" />
           </Link>
         </div>
         <div className="editor__description">

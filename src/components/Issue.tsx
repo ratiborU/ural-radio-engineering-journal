@@ -1,14 +1,12 @@
-// import React, { useState, useEffect, useContext } from 'react';
-// import { Link } from 'react-router-dom';
-// import FileService from '../api/FileService';
 import { FormattedMessage } from 'react-intl'
-// import { IIssue, IRuEng } from '../types/types';
 import { useLanguageContext } from '../i18n/languageContext';
-// import { useQuery } from 'react-query';
 import issueImage from "../../public/assets/issues/tom7n3.jpeg";
-import type { IIssue, IRuEng } from '@/lib/types';
+// import type { IIssue, IRuEng } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { IIssue, IRuEng} from '@/lib/typesNew';
+import { serverUrl } from '@/lib/utils';
+import { transformDate } from '@/lib/utils';
 
 
 type IssueComponentProps = {
@@ -16,27 +14,18 @@ type IssueComponentProps = {
 }
 
 const Issue = ({issue}: IssueComponentProps) => {
-  const {lang} = useLanguageContext();
-  const date = new Date(issue.date);
-
-  // const { data: image, error } = useQuery({
-  //   queryFn: async () => await FileService.getImageLinkById(issue.filePathId),
-  //   queryKey: ["image"],
-  //   staleTime: Infinity,
-  //   retry: 0
-  // });
-
+  const date = transformDate(issue.date);
   return (
     <div className="catalog__item">
       <div className="catalog__item-image">
-        <Link className="catalog__item-image-link" href={`/catalog/${issue["id"]}`}>
-          <Image src={issueImage} alt="" />
+        <Link className="catalog__item-image-link" href={`/catalog/${issue.id}`}>
+          <Image width={200} height={200} src={`${serverUrl}/api/v1/files/download/${issue.imageID}`} alt="" />
         </Link>
       </div>
       {/* исправить дату */}
-      <p className='catalog__item-date'>0{date.getDate()}.{date.getMonth()}.{date.getFullYear()}</p> 
-      <p className='catalog__item-title'>{issue["title"][lang as keyof IRuEng]}</p>
-      <Link  href={`/catalog/${issue["id"]}`}>
+      <p className='catalog__item-date'>{date}</p> 
+      <p className='catalog__item-title'>Том {issue.volume}, №{issue.number}({issue.year})</p>
+      <Link  href={`/catalog/${issue.id}`}>
         <button className='catalog__item-button'><FormattedMessage id='catalog-catalog__item-button' /></button>
       </Link>
     </div>

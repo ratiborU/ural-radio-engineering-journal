@@ -1,28 +1,35 @@
 "use client"
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, {useState} from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
-const SearchInput = () => {
+const SearchInput = ({setUpdate, setIsAppdating}: {setUpdate: React.Dispatch<React.SetStateAction<string>>, setIsAppdating: React.Dispatch<React.SetStateAction<boolean>>}) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
+  const queryClient = useQueryClient();
+  // const navigator = useNavigate()
 
-  const onSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const encodedSearchQuery = encodeURI(searchQuery);
-    router.push(`/search?q=${encodedSearchQuery}`)
-
-    console.log(encodedSearchQuery);
+    setUpdate(searchQuery);
+    setIsAppdating(true);
+    
+    // await queryClient.invalidateQueries({queryKey: ["issues"]});
+  }
+  const onClickButton = async () => {
+    setUpdate(searchQuery);
+    setIsAppdating(true);
+    // await queryClient.invalidateQueries({queryKey: ["issues"]});
   }
 
   return (
-    <form onSubmit={onSearch}>
+    <form className="search-form" onSubmit={onSearch}>
       <input 
         className='search-input' 
         type="text" 
         onChange={(event) => setSearchQuery(event.target.value)}
         placeholder='Поиск...'
       />
+      <button onClick={(e) => {onClickButton()}} className='search-button' type='button'>Поиск</button>
     </form>
   );
 };

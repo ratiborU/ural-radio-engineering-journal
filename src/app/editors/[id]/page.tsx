@@ -4,14 +4,14 @@ import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguageContext } from '@/i18n/languageContext';
 import { IRuEng } from '@/lib/types';
-import { getEditorById } from '@/data/ReductorApi';
-import { getFileLink } from '@/data/FileApi';
+// import { getEditorById } from '@/data/ReductorApi';
+import { getCouncilById } from '@/data/CouncilApi';
 import EditorPageClient from '@/components/pages/EditorPage';
 import { Metadata } from 'next';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 
-  const editor = await getEditorById(params.id);
+  const editor = await getCouncilById(params.id);
   const title = editor?.name.Ru;
   const description = editor?.description.Ru;
 
