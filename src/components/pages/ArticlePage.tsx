@@ -11,7 +11,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import Author from '../Author';
-import { transformDate } from '@/lib/utils';
+import { serverUrl, transformDate } from '@/lib/utils';
+
 
 const commentSchema = z.object({
   author: z.string().min(1, "Комментарий не должен быть пустым"),
@@ -67,7 +68,7 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
         <p className='article__authors'>{article?.authors.map(x => x.fullname[lang as keyof IRuEng]).join(", ")}</p>
 
         <div className="article__buttons">
-          <a className="article__button-link" href={'pdf'}>
+          <a className="article__button-link" href={`${serverUrl}/api/v1/files/download/${article.documentID}`} download={true}>
             <button className='article__pdf-download'><FormattedMessage id='article-article__pdf-download'/></button>
           </a>
           <a className="article__button-link" href='#'>
@@ -84,6 +85,13 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
         <p className='article__text2'>Дата поступления: {transformDate(article?.dateReceipt)}</p>
         <p className='article__text2'>Дата принятия: {transformDate(article?.dateAcceptance)}</p>
         <p className='article__text'>DOI: {article?.doi}</p>
+        
+
+        <video className='article__video' height="396" width="728" controls>
+          <source src={`${serverUrl}/api/v1/files/download/${article.videoID}?tr=w-728,h-396`} />
+          Your browser does not support the video tag...
+        </video>
+
 
         <p className='article__subtitle'><FormattedMessage id='article-article__words'/></p>
         <p className='article__text'>{article?.keywords.map(item => item[lang as keyof IRuEng]).join(", ")}</p>

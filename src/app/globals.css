@@ -1316,3 +1316,6 @@ footer {
   background: rgba(61, 176, 238, 1);
   transform: scale(0.95);
 }
+.article__video {
+  margin-bottom: 60px;
+}

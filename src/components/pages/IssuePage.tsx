@@ -27,7 +27,7 @@ const IssuePageClient = ({ params }: { params: { id: string } }) => {
   return (
     <div>
       <p className='issue__title'>Том {issue?.volume}, №{issue?.number}({issue?.year})</p>
-      <a target='blank' href={`${serverUrl}/api/v1/files/download/${issue?.documentID}`} download={true}>
+      <a href={`${serverUrl}/api/v1/files/download/${issue?.documentID}`} download={true}>
         <button className='issue__button'>
           <FormattedMessage id='issue-issue__button' />
         </button>
