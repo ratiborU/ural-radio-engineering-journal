@@ -1,4 +1,5 @@
 export const serverUrl = "http://158.160.135.237:8080";
+export const frontUrl = "http://localhost:5173";
 
 export const transformDate = (stringDate: string) => {
   const date = new Date(stringDate);

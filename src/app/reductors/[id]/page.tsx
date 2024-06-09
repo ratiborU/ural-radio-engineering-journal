@@ -8,20 +8,22 @@ import { IRuEng } from '@/lib/types';
 import { getCouncilById } from '@/data/CouncilApi';
 import EditorPageClient from '@/components/pages/EditorPage';
 import { Metadata } from 'next';
+import { getReductorById } from '@/data/ReductorService';
+import ReductorPageClient from '@/components/pages/ReductorPage';
 import { frontUrl } from '@/lib/utils';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 
-  const editor = await getCouncilById(params.id);
+  const editor = await getReductorById(params.id);
   const title = editor?.name.Ru;
-  const description = `${editor?.content.Ru}. ${editor?.location.Ru}`;
+  const description = `${editor?.content.Ru} ${editor?.location.Ru}`;
 
   return {
     title: title,
     description: description,
     openGraph: {
       type: "website",
-      url: `${frontUrl}/editors/${params.id}`,
+      url: `${frontUrl}/reductors/${params.id}`,
       title: title,
       description: description,
       siteName: "Ural Radio Enjeenering journal"
@@ -29,10 +31,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
 }
 
-
 const EditorPage = ({ params }: { params: { id: string } }) => {
+
   return (
-    <EditorPageClient params={params}/>
+    <ReductorPageClient params={params}/>
   );
 };
 

@@ -4,8 +4,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getArticlesBySearch, getIssues } from '@/data/IssueApi';
 import Issue from '@/components/Issue';
 import SearchInput from '@/components/SearchInput';
-import { useSearchParams } from 'next/navigation';
-import Article from '@/components/Article';
 import ArticleSearch from '@/components/ArticleSearch';
 
 const CatalogPage = () => {

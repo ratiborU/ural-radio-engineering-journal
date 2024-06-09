@@ -14,6 +14,7 @@ type IssueComponentProps = {
 }
 
 const Issue = ({issue}: IssueComponentProps) => {
+  const {lang} = useLanguageContext();
   const date = transformDate(issue.date);
   return (
     <div className="catalog__item">
@@ -24,7 +25,13 @@ const Issue = ({issue}: IssueComponentProps) => {
       </div>
       {/* исправить дату */}
       <p className='catalog__item-date'>{date}</p> 
-      <p className='catalog__item-title'>Том {issue.volume}, №{issue.number}({issue.year})</p>
+      <p className='catalog__item-title'>
+        {
+          lang == 'Ru' 
+            ? <>Том {issue.volume}, №{issue.number}({issue.year})</>
+            : <>Volume {issue.volume}, №{issue.number}({issue.year})</>
+        }
+      </p>
       <Link  href={`/catalog/${issue.id}`}>
         <button className='catalog__item-button'><FormattedMessage id='catalog-catalog__item-button' /></button>
       </Link>

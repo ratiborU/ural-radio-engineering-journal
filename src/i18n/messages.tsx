@@ -82,6 +82,7 @@ export const messages = {
     "editors-title2": "Deputy Chief Editor",
     "editors-title3": "Editorial Manager",
     "editors-title4": "Editorial Council",
+    "editors-title5": "Reductors",
 
 
     "catalog-catalog__item-button": "Read",
@@ -98,6 +99,7 @@ export const messages = {
     "article-article__pdf-download": "Read PDF",
     "article-article__pdf-download_second": "Biographical reference",
     "article-article__annotation": "Annotation",
+    "article-article__authors": "Authors",
     "article-article__words": "Keywords",
     "article-article__literature": "Literature",
     "article-article__comments-title": "Comments",
@@ -187,6 +189,7 @@ export const messages = {
     "editors-title2": "Заместитель главного редактора",
     "editors-title3": "Управляющая редакцией",
     "editors-title4": "Редакционный совет",
+    "editors-title5": "Редакция",
 
 
     "catalog-catalog__item-button": "Читать",
@@ -205,6 +208,7 @@ export const messages = {
     "article-article__pdf-download": "Читать PDF",
     "article-article__pdf-download_second": "Биографическая ссылка",
     "article-article__annotation": "Аннотация",
+    "article-article__authors": "Авторы",
     "article-article__words": "Ключевые слова",
     "article-article__literature": "Литература",
     "article-article__comments-title": "Комментарии",

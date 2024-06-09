@@ -3,6 +3,7 @@ import { getArticleById } from '@/data/AticleApi';
 
 import ArticlePageClient from '@/components/pages/ArticlePage';
 import { Metadata } from 'next';
+import { frontUrl } from '@/lib/utils';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 
@@ -15,10 +16,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     description: description,
     openGraph: {
       type: "website",
-      url: `https://ural-radio.vercel.app/catalog/article/${params.id}`,
+      url: `${frontUrl}/catalog/article/${params.id}`,
       title: title,
       description: description,
-      siteName: "Ural Radio Enjeenering journal"
+      siteName: "Ural Radio Enjeenering Journal"
     }
   }
 }

@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import Author from '../Author';
 import { serverUrl, transformDate } from '@/lib/utils';
+import { downloadFile } from '@/data/FileApi';
 
 
 const commentSchema = z.object({
@@ -86,17 +87,17 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
         <p className='article__text2'>Дата принятия: {transformDate(article?.dateAcceptance)}</p>
         <p className='article__text'>DOI: {article?.doi}</p>
         
-
         <video className='article__video' height="396" width="728" controls>
           <source src={`${serverUrl}/api/v1/files/download/${article.videoID}?tr=w-728,h-396`} />
           Your browser does not support the video tag...
         </video>
+        
 
 
         <p className='article__subtitle'><FormattedMessage id='article-article__words'/></p>
         <p className='article__text'>{article?.keywords.map(item => item[lang as keyof IRuEng]).join(", ")}</p>
         
-        <p className='article__subtitle'>Авторы</p>
+        <p className='article__subtitle'><FormattedMessage id='article-article__authors'/></p>
         <div className="article__authors-list">
         {article?.authors.map((author, i) => <Author author={author} key={`author_${author.fullname.Ru}_${i}`}/>)}
         </div>

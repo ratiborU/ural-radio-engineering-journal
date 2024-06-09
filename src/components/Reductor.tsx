@@ -1,12 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ICouncil, IRuEng } from '@/lib/typesNew';
+import { IReductor, IRuEng } from '@/lib/typesNew';
 import { useLanguageContext } from '@/i18n/languageContext';
 import { serverUrl } from '@/lib/utils';
 
 type BoardEditorProps = {
-  editor: ICouncil;
+  editor: IReductor;
 }
 
 const BoardEditor = ({editor}: BoardEditorProps) => {
@@ -16,7 +16,7 @@ const BoardEditor = ({editor}: BoardEditorProps) => {
     <div>
       <div className="editors__board-element">
         <div className="editors__board-image">
-          <Link  href={`/editors/${editor.id}`}>
+          <Link  href={`/reductors/${editor.id}`}>
             <Image className="editor__image-img" width={200} height={200} src={`${serverUrl}/api/v1/files/download/${editor.imageID}`} alt="" />
           </Link>
         </div>

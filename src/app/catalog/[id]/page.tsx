@@ -9,6 +9,7 @@ import { IRuEng } from '@/lib/types';
 import { useLanguageContext } from '@/i18n/languageContext';
 import Head from 'next/head';
 import { Metadata } from 'next';
+import { frontUrl } from '@/lib/utils';
 
 import IssuePageClient from '@/components/pages/IssuePage';
 
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     title: title,
     openGraph: {
       type: "website",
-      url: `https://ural-radio.vercel.app/catalog/${params.id}`,
+      url: `${frontUrl}/catalog/${params.id}`,
       title: title,
       siteName: "Ural Radio Enjeenering journal"
     }

@@ -6,14 +6,14 @@ import { useLanguageContext } from '@/i18n/languageContext';
 import { IRuEng } from '@/lib/types';
 import { getCouncilById } from '@/data/CouncilApi';
 import { serverUrl, transformDate } from '@/lib/utils';
+import { getReductorById } from '@/data/ReductorService';
 
 
-
-const EditorPageClient = ({ params }: { params: { id: string } }) => {
+const ReductorPageClient = ({ params }: { params: { id: string } }) => {
   const {lang} = useLanguageContext();
 
   const {status: editorStatus, data: editor, error} = useQuery({
-    queryFn: async () => await getCouncilById(params.id),
+    queryFn: async () => await getReductorById(params.id),
     queryKey: ["editor", params.id],
     staleTime: Infinity
   });
@@ -39,7 +39,6 @@ const EditorPageClient = ({ params }: { params: { id: string } }) => {
 
         <div className="editor-page__email-block">
           <div className="editor-page__email-block-container">
-            <a href={editor?.scopus} className="editor-page__scopus">Scopus</a>
             <div className="editor-page__email">{editor?.email}</div>
           </div>
         </div>
@@ -52,4 +51,4 @@ const EditorPageClient = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default EditorPageClient;
+export default ReductorPageClient;
