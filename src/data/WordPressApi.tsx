@@ -1,4 +1,5 @@
 import axios from "axios";
+import { wordpressUrl } from "@/lib/utils";
 
 // export const getAuthorsStatic = async () => {
 //   const response = await axios.get(`http://158.160.135.237:7006/wp-json/wp/v2/posts?slug=static_for_authors&_fields=acf`)
@@ -42,7 +43,7 @@ import axios from "axios";
 // }
 
 export const getAuthorsStatic = async () => {
-  const response = await axios.get(`http://158.160.135.237:7006/wp-json/wp/v2/posts?slug=static_for_authors&_fields=acf`)
+  const response = await axios.get(`${wordpressUrl}/wp-json/wp/v2/posts?slug=static_for_authors&_fields=acf`)
     .then((response) => {
       let result = response.data[0].acf;
       // console.log(result);
@@ -102,7 +103,7 @@ export const getAuthorsStatic = async () => {
 
 
 export const getAboutJournalStatic = async () => {
-  const response = await axios.get(`http://158.160.135.237:7006/wp-json/wp/v2/posts?slug=static_about_journal&_fields=acf`)
+  const response = await axios.get(`${wordpressUrl}/wp-json/wp/v2/posts?slug=static_about_journal&_fields=acf`)
     .then((response) => {
       let result = response.data[0].acf;
       for (const key of Object.keys(result)) {

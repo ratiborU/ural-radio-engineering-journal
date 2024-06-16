@@ -1,4 +1,5 @@
 export const serverUrl = "http://158.160.135.237:8080";
+export const wordpressUrl = "http://158.160.135.237:7006";
 export const frontUrl = "http://localhost:5173";
 
 export const transformDate = (stringDate: string) => {
