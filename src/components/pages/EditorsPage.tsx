@@ -55,14 +55,14 @@ const EditorsPageClient = () => {
           </div>
         </div>
 
-        <div className="editors__board">
+        {/* <div className="editors__board">
           <div className="editors__board-title title"><p><FormattedMessage id='editors-title5' /></p></div>
           <div className="editors__board-container">
             {reductors?.map(editor => {
               return <Reductor key={editor["id"]} editor={editor}/>
             })}
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   )

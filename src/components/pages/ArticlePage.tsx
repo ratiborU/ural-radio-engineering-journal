@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getArticleById } from '@/data/AticleApi';
 import { getComments, createComment } from '@/data/CommentApi';
@@ -67,8 +67,9 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
     <>
       <div className='article'>
         <p className='article__title'>{article?.title[lang as keyof IRuEng]}</p>
-        <p className='article__authors'>{article?.authors.map(x => x.fullname[lang as keyof IRuEng]).join(", ")}</p>
-
+        <p className='article__authors'>{article?.authors.map((x, i) => 
+          <span className='article__author' key={i} title={`${lang == "Ru"? "Аффилиация": "Affiliation"}: ${x.affilation}, Email: ${x.email}`}>{x.fullname[lang as keyof IRuEng]}, </span>
+        )}</p>
         <div className="article__buttons">
           <a className="article__button-link" href={`${serverUrl}/api/v1/files/download/${article.documentID}`} download={true}>
             <button className='article__pdf-download'><FormattedMessage id='article-article__pdf-download'/></button>
@@ -98,10 +99,10 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
         <p className='article__subtitle'><FormattedMessage id='article-article__words'/></p>
         <p className='article__text'>{article?.keywords.map(item => item[lang as keyof IRuEng]).join(", ")}</p>
         
-        <p className='article__subtitle'><FormattedMessage id='article-article__authors'/></p>
+        {/* <p className='article__subtitle'><FormattedMessage id='article-article__authors'/></p>
         <div className="article__authors-list">
         {article?.authors.map((author, i) => <Author author={author} key={`author_${author.fullname.Ru}_${i}`}/>)}
-        </div>
+        </div> */}
         
 
         <p className='article__subtitle'><FormattedMessage id='article-article__literature'/></p>

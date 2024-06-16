@@ -5,6 +5,8 @@ import image2 from "../../public/assets/image 3.svg"
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname  } from 'next/navigation';
+import ruIcon from "../../public/assets/ru_rus_russia_flag_icon_255814.png";
+import engIcon from "../../public/assets/gb_flag_great_britain_england_union_jack_english_icon_228674.png";
 
 import { useLanguageContext } from '../i18n/languageContext';
 import { LOCALES } from '../i18n/locales'
@@ -12,7 +14,9 @@ import { FormattedMessage } from 'react-intl'
 
 
 const Header = () => {
+  
   const {localeChange} = useLanguageContext();
+  const {lang} = useLanguageContext();
   const pathname = usePathname();
   const checkActiveLinc = (path: string) => pathname == path ? 'header__group-link header__group-link-active' : 'header__group-link';
 
@@ -34,11 +38,11 @@ const Header = () => {
         </nav>
 
         <div className='header__languages'>
-          <div className="header__language-img">
-            <Image src={image} width="30" height="30" alt="" onClick={() => localeChange(LOCALES.ENGLISH)}/>
+          <div className={`header__language-img ${lang == "Eng" ? "" : "header__language-img-none-active"}`} onClick={() => localeChange(LOCALES.ENGLISH)}>
+            <Image src={engIcon} width="30" height="30" alt="" />
           </div>
-          <div className="header__language-img">
-            <Image src={image2}  width="30" height="30" alt="" onClick={() => localeChange(LOCALES.RUSSIAN)}/>
+          <div className={`header__language-img ${lang == "Ru" ? "" : "header__language-img-none-active"}`} onClick={() => localeChange(LOCALES.RUSSIAN)}>
+            <Image src={ruIcon}  width="30" height="30" alt="" />
           </div>
         </div>
       </header>

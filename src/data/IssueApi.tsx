@@ -15,14 +15,17 @@ export const getIssues = async (search: string): Promise<IIssue[]> => {
     //     throw new Error(error.message);
     //   }); 
 
-    const responseArticles = await getArticlesBySearch(search);
+    // const responseArticles = await getArticlesBySearch(search);
 
     // return response;
     return []
   }
   const response = await axios.get(`${serverUrl}/api/v1/editions/get/all`)
     .then((response) => {
-      return response["data"]["data"];
+      return response["data"]["data"].sort((issue: IIssue, issue2: IIssue) => {
+        return issue2.year - issue.year || issue2.volume - issue.volume || issue2.number - issue.number
+        return 1;
+      });;
     }).catch((error: Error) => {
       console.log(error.message);
       throw new Error(error.message);
