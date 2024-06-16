@@ -39,8 +39,9 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
 
   const mutation = useMutation({
     mutationFn: async (data: ICommentSchema) => {
-      console.log(data);
-      // await createComment(Number(params.id), data.comment, data.author, String(new Date()));
+      const nowDate = new Date();
+      const resultDate = nowDate.toISOString();
+      await createComment(Number(params.id), data.comment, data.author, resultDate);
 
     },
     onSuccess: () => {

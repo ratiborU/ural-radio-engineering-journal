@@ -40,7 +40,6 @@ const CatalogPage = () => {
   }, [isAppdating]);
 
   if (error) {
-    console.log(error);
     return <p>Произошла ошибка</p>
   }
   if (isLoading) {

@@ -366,6 +366,9 @@ footer {
 
 .paragraph__item {
   margin-bottom: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  /* font-size: 30px; */
 }
 .paragraph__text_list {
   margin-left: 90px;
@@ -397,6 +400,7 @@ footer {
   margin-bottom: 67px;
 }
 .editor__title {
+  display: block;
   margin-bottom: 20px;
 }
 .editor__block {
@@ -945,12 +949,12 @@ footer {
 .article__comment-field {
   max-width: 714px;
   min-width: 714px;
-  height: 46px;
+  height: 120px;
   min-height: 46px;
   border: 1px solid #818181;
   border-radius: 5px;
   width: 100%;
-  padding: 10px;
+  padding: 5px 10px;
   margin-bottom: 40px;
   font-size: 18px;
 }
@@ -1318,4 +1322,8 @@ footer {
 }
 .article__video {
   margin-bottom: 60px;
+}
+.sidebar__image {
+  width: 358px;
+  height: 100%;
 }

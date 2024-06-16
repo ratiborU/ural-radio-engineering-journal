@@ -17,6 +17,10 @@ export function useLanguageContext() {
   return context;
 }
 
+export function getByLang(lang: string, first: string, second: string) {
+  return lang == "Ru" ? first : second;
+}
+
 export default function LanguageContextProvider({children} : {children: React.ReactNode}) {
   const [lang, setLang] = useState<"Eng" | "Ru">('Ru');
   const [locale, setLocale] = useState(LOCALES.RUSSIAN);

@@ -1,5 +1,5 @@
 import React from 'react';
-// import SideBar from './SideBar';
+import SideBar from './SideBar';
 
 
 type PageProps = {
@@ -20,7 +20,7 @@ const Page = ({children}: PageProps) => {
             
           {children}
         </div>
-        {/* <SideBar /> */}
+        <SideBar />
       </main>
       <div className="circle1"></div>
       <div className="circle2"></div>

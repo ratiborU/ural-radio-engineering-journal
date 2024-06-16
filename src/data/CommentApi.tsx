@@ -26,10 +26,6 @@ export const createComment = async (
     "content": content,
     "author": author,
     "date": date,
-  }, {
-    headers: {
-      "Authorization": `${window.localStorage.getItem("token")}`
-    }
   }).then((response) => {
       return response["data"];
     }).catch((error) => {

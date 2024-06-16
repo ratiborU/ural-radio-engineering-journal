@@ -27,7 +27,6 @@ export const getIssues = async (search: string): Promise<IIssue[]> => {
       console.log(error.message);
       throw new Error(error.message);
     }); 
-  console.log('not search');
   return response;
 }
 

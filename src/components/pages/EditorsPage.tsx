@@ -26,11 +26,11 @@ const EditorsPageClient = () => {
     staleTime: Infinity
   });
 
-  const mainEditor = useMemo(() => councils?.find(item => item["rank"] == "Главный редактор"), [reductors]);
-  const subEditor = useMemo(() => councils?.find(item => item["rank"] == "Заместитель главного редактора"), [reductors]);
-  const menagerEditor = useMemo(() => councils?.find(item => item["rank"] == "Зав. редакцией"), [reductors]);
+  const mainEditor = useMemo(() => councils?.find(item => item["rank"] == "Главный редактор"), [councils]);
+  const subEditor = useMemo(() => councils?.find(item => item["rank"] == "Заместитель главного редактора"), [councils]);
+  const menagerEditor = useMemo(() => councils?.find(item => item["rank"] == "Зав. редакцией"), [councils]);
 
-  console.log(mainEditor);
+
 
   if (reductorsStatus == 'pending' && reductorsStatus == 'pending') {
     return <p>Загрузка...</p>
@@ -39,12 +39,12 @@ const EditorsPageClient = () => {
   return (
     <>
       <div className="editors">
-        <div className="editor__title title"><p><FormattedMessage id='editors-title1' /></p></div>
-        <MainEditor editor={mainEditor!}/>
-        <div className="editor__title title"><p><FormattedMessage id='editors-title2' /></p></div>
-        <MainEditor editor={subEditor!}/>
-        <div className="editor__title title"><p><FormattedMessage id='editors-title3' /></p></div>
-        <MainEditor editor={menagerEditor!}/>
+        <div className="editor__title"><p className='title'><FormattedMessage id='editors-title1' /></p></div>
+        {mainEditor && <MainEditor editor={mainEditor!}/>}
+        <div className="editor__title"><p className='title'><FormattedMessage id='editors-title2' /></p></div>
+        {subEditor && <MainEditor editor={subEditor!}/>}
+        <div className="editor__title"><p className='title'><FormattedMessage id='editors-title3' /></p></div>
+        {menagerEditor && <MainEditor editor={menagerEditor!}/>}
         
         <div className="editors__board">
           <div className="editors__board-title title"><p><FormattedMessage id='editors-title4' /></p></div>
@@ -58,7 +58,7 @@ const EditorsPageClient = () => {
         <div className="editors__board">
           <div className="editors__board-title title"><p><FormattedMessage id='editors-title5' /></p></div>
           <div className="editors__board-container">
-            {reductors?.filter((item) => item["rank"] == "Редактор").map(editor => {
+            {reductors?.map(editor => {
               return <Reductor key={editor["id"]} editor={editor}/>
             })}
           </div>
