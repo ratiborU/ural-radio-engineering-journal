@@ -5,7 +5,7 @@ import { getArticlesBySearch, getIssues } from '@/data/IssueApi';
 import Issue from '@/components/Issue';
 import SearchInput from '@/components/SearchInput';
 import ArticleSearch from '@/components/ArticleSearch';
-import { IIssue } from '@/lib/typesNew';
+import { IArticle, IIssue } from '@/lib/typesNew';
 import { getArticlesSearch } from '@/data/AticleApi';
 import { FormattedMessage } from 'react-intl';
 
@@ -19,6 +19,10 @@ const CatalogPage = () => {
   const [offset, setOffset] = useState(0);
   const [limit, setlimit] = useState(9);
   const [issuesList, setIssuesList] = useState<IIssue[]>([])
+
+  const [offsetArticle, setOffsetArticle] = useState(0);
+  const [limitArticle, setlimitArticle] = useState(10);
+  const [articlesList, setArticlesList] = useState<IArticle[]>([])
 
   const [title, setTitle] = useState(true);
   const [annotation, setAnnotation] = useState(false);
@@ -40,9 +44,15 @@ const CatalogPage = () => {
   const { data: articlesSearch, status: articlesSearchStatus, error: articlesSearchError } = useQuery({
     queryKey: ['articlesSearch'],
     queryFn: async () => {
+      if (update == '') {
+        return {allCount: 0, data: []};
+      }
       const titleSearch = title || annotation || authors || keywords;
-      const response = await getArticlesSearch(update, title || !titleSearch, annotation, authors, keywords)
-      return response;
+      const response = await getArticlesSearch(update, offsetArticle, limitArticle, title || !titleSearch, annotation, authors, keywords)
+      setArticlesList([...articlesList, ...response.data]);
+      setOffsetArticle(offsetArticle + limitArticle);
+      
+      return {...response, data: [...articlesList, ...response.data]};
     },
     staleTime: Infinity
   });
@@ -56,6 +66,9 @@ const CatalogPage = () => {
 
   const handleButtonAddIssues = () => {
     queryClient.invalidateQueries({queryKey: ['issues']});
+  }
+  const handleButtonAddArticles = () => {
+    queryClient.invalidateQueries({queryKey: ['articlesSearch']});
   }
 
 
@@ -75,6 +88,14 @@ const CatalogPage = () => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // useEffect(() => {
+  //   if (articlesSearch) {
+  //     setOffsetArticle(articlesSearch.data.length);
+  //     setArticlesList([...articlesList, ...articlesSearch.data]);
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   if (error) {
     return <p>Произошла ошибка</p>
@@ -96,8 +117,9 @@ const CatalogPage = () => {
           <button className={!keywords? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setKeywords(!keywords)} type='button'><FormattedMessage id='catalog-catalog__item-button-search4' /></button>
         </div>
         {/* <button className='search__back-button' onClick={onButtonBackToIssues} type='button'>Вернуться к выпускам</button> */}
-        {articlesSearchStatus == 'success' && articlesSearch?.map(article => <ArticleSearch key={article["id"]} article={article}/>)}
-        {articlesSearchStatus == 'success' && articlesSearch.length == 0 && <p>Ничего не найдено</p>}
+        {articlesSearchStatus == 'success' && articlesSearch.data?.map(article => <ArticleSearch key={article["id"]} article={article}/>)}
+        {articlesSearchStatus == 'success' && articlesSearch.data.length == 0 && <p>Ничего не найдено</p>}
+        {articlesSearch!.data.length < articlesSearch!.allCount && <button className='catalog__add-issues-button' onClick={() => handleButtonAddArticles()}>Загрузить ещё</button>}
       </>
     )
   }

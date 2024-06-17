@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getArticleById } from '@/data/AticleApi';
 import { getComments, createComment } from '@/data/CommentApi';
-import { IRuEng } from '@/lib/types';
+import { IComment, IRuEng } from '@/lib/types';
 import { FormattedMessage } from 'react-intl';
 import { useLanguageContext } from '@/i18n/languageContext';
 import Comment from '@/components/Comment';
@@ -23,6 +23,7 @@ const commentSchema = z.object({
 type ICommentSchema = z.infer<typeof commentSchema>;
 
 const ArticlePageClient = ({ params }: { params: { id: string } }) => {
+  const [commentList, setCommentList] = useState<IComment[]>([])
   const {lang} = useLanguageContext();
 
   const {status: articleStatus, data: article, error: articleError} = useQuery({
@@ -32,7 +33,7 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
   });
 
   const {status: commentsStatus, data: comments, error: commentsError} = useQuery({
-    queryFn: async () => await getComments(Number(params.id), true),
+    queryFn: async () => await getComments(Number(params.id), true, 0, 10),
     queryKey: ["pdf", params.id],
     staleTime: Infinity
   });
@@ -118,7 +119,7 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
         {commentsStatus == 'pending'
           ? <p>загрузка</p>
           : <div className="article__comments">
-              {comments?.map((comment, commentId) => <Comment key={commentId} comment={comment}/>)}
+              {comments?.data?.map((comment, commentId) => <Comment key={commentId} comment={comment}/>)}
             </div>
         }
   

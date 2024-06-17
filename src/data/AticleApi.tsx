@@ -12,15 +12,28 @@ export const getArticles = async (editionId: string): Promise<IArticle[]> => {
     }); 
   return response;
 }
-
-export const getArticlesSearch = async (search: string, title: boolean, keywords: boolean, authors: boolean, annotation: boolean): Promise<IArticle[]> => {
-  const response = await axios.get(`${serverUrl}/api/v1/article/get/all?search=${search}&title=${title}&keywords=${keywords}&authors=${authors}&affilation=${annotation}`)
+// offset=${offset}&limit=${limit}
+export const getArticlesSearch = async (
+  search: string, 
+  offset: number,
+  limit: number,
+  title: boolean, 
+  keywords: boolean, 
+  authors: boolean, 
+  annotation: boolean
+): Promise<{allCount: number, data: IArticle[]}> => {
+  let allCount = 0;
+  const response = await axios.get(`${serverUrl}/api/v1/article/get/all?search=${search}&offset=${offset}&limit=${limit}&title=${title}&authors=${authors}&keywords=${keywords}&affilation=${annotation}`)
     .then((response) => {
+      if (response.data.all_count == 0) {
+        return [];
+      }
+      allCount = response.data.all_count;
       return response.data.data;
     }).catch((error: Error) => {
       throw new Error(error.message);
     }); 
-  return response;
+  return {allCount, data: response};
 }
 
 
