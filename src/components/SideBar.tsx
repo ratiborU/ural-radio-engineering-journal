@@ -12,13 +12,14 @@ import { getIssues } from '@/data/IssueApi';
 // import { useQuery } from 'react-query';
 import { useQuery } from '@tanstack/react-query';
 import { serverUrl } from '@/lib/utils';
+import { IIssue } from '@/lib/typesNew';
 
 
 const SideBar = () => {
   const {status: issueStatus, data: issue } = useQuery({
     queryFn: async () => {
-      const issues = await getIssues('')
-      const lastIssue = issues.reduce((accumulator, currentValue) => {
+      const issues = await getIssues(0, 200)
+      const lastIssue = issues.data.reduce((accumulator: IIssue, currentValue: IIssue) => {
         const currentDate = new Date(currentValue.date);
         const latestDate = new Date(accumulator.date);
         return currentDate > latestDate ? currentValue : accumulator;

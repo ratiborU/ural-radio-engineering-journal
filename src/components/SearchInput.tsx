@@ -3,22 +3,22 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, {useState} from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
-const SearchInput = ({setUpdate, setIsAppdating}: {setUpdate: React.Dispatch<React.SetStateAction<string>>, setIsAppdating: React.Dispatch<React.SetStateAction<boolean>>}) => {
+const SearchInput = ({setUpdate, setIsAppdating, setIsSearching}: {setUpdate: React.Dispatch<React.SetStateAction<string>>, setIsAppdating: React.Dispatch<React.SetStateAction<boolean>>, setIsSearching: React.Dispatch<React.SetStateAction<boolean>>}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const queryClient = useQueryClient();
-  // const navigator = useNavigate()
 
   const onSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUpdate(searchQuery);
     setIsAppdating(true);
+    setIsSearching(true);
     
-    // await queryClient.invalidateQueries({queryKey: ["issues"]});
   }
-  const onClickButton = async () => {
+  const onClickButton = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
     setUpdate(searchQuery);
     setIsAppdating(true);
-    // await queryClient.invalidateQueries({queryKey: ["issues"]});
+    setIsSearching(true);
   }
 
   return (
@@ -29,7 +29,7 @@ const SearchInput = ({setUpdate, setIsAppdating}: {setUpdate: React.Dispatch<Rea
         onChange={(event) => setSearchQuery(event.target.value)}
         placeholder='Поиск...'
       />
-      <button onClick={(e) => {onClickButton()}} className='search-button' type='button'>Поиск</button>
+      <button onClick={onClickButton} className='search-button' type='button'>Поиск</button>
     </form>
   );
 };

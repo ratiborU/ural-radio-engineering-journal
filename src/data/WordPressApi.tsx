@@ -1,52 +1,13 @@
 import axios from "axios";
 import { wordpressUrl } from "@/lib/utils";
 
-// export const getAuthorsStatic = async () => {
-//   const response = await axios.get(`http://158.160.135.237:7006/wp-json/wp/v2/posts?slug=static_for_authors&_fields=acf`)
-//     .then((response) => {
-//       let result = response.data[0].acf;
-//       console.log(result);
-//       for (const key of Object.keys(result)) {
-//         // result[key] = Object.entries(result[key]);
-//         // console.log(Object.keys(result[key]));
-//         // console.log(result[key]);
-//         for (const keyBlock of Object.keys(result[key])) {
-//           console.log(keyBlock);
-//           // console.log(result[key][keyBlock]);
-//           // console.log(Object.keys(result[key][keyBlock]));
-//           for (const key2 of Object.keys(result[key][keyBlock])) {
-//             // console.log(key2);
-//             // console.log(result[key][keyBlock][key2])
-//             if (key2 == 'text') {
-//               result[key][keyBlock][key2] = result[key][keyBlock][key2];
-//             } else if (key2 == 'files' || key2 == 'images') {
-//               result[key][keyBlock][key2] = Object.entries(result[key][keyBlock][key2]);
-//             } else if (key2 == 'list') {
-//               result[key][keyBlock][key2] = Object.entries(result[key][keyBlock][key2]);
-//               result[key][keyBlock][key2].sort((a, b) => a[0] > b[0] ? 1 : -1);
-//               result[key][keyBlock][key2] = result[key][keyBlock][key2].map(x => x[1]);
-//             } else if (key2 == 'list_custom') {
-//               result[key][keyBlock][key2] = Object.entries(result[key][keyBlock][key2]);
-//               result[key][keyBlock][key2].sort((a, b) => a[0] > b[0] ? 1 : -1);
-//               result[key][keyBlock][key2] = result[key][keyBlock][key2].map(x => Object.values(x[1]));
-//             }
-//           }
-//           // result[key][i][1] = Object.entries(result[key][i][1]);
-//         }
-//       }
-//       console.log(result);
-//       return result;
-//     }).catch((error: Error) => {
-//       throw new Error(error.message);
-//     }); 
-//   return response;
-// }
 
 export const getAuthorsStatic = async () => {
   const response = await axios.get(`${wordpressUrl}/wp-json/wp/v2/posts?slug=static_for_authors&_fields=acf`)
     .then((response) => {
+      console.log(response);
       let result = response.data[0].acf;
-      // console.log(result);
+      console.log(result);
       for (const key of Object.keys(result)) {
         result[key] = Object.entries(result[key]);
         const length = Object.entries(result[key]).length;
@@ -67,33 +28,7 @@ export const getAuthorsStatic = async () => {
             }
           }
         }
-        // // console.log(Object.keys(result[key]));
-        // // console.log(result[key]);
-        // for (const keyBlock of Object.keys(result[key])) {
-        //   console.log(keyBlock);
-        //   // console.log(result[key][keyBlock]);
-        //   // console.log(Object.keys(result[key][keyBlock]));
-        //   for (const key2 of Object.keys(result[key][keyBlock])) {
-        //     // console.log(key2);
-        //     // console.log(result[key][keyBlock][key2])
-        //     if (key2 == 'text') {
-        //       result[key][keyBlock][key2] = result[key][keyBlock][key2];
-        //     } else if (key2 == 'files' || key2 == 'images') {
-        //       result[key][keyBlock][key2] = Object.entries(result[key][keyBlock][key2]);
-        //     } else if (key2 == 'list') {
-        //       result[key][keyBlock][key2] = Object.entries(result[key][keyBlock][key2]);
-        //       result[key][keyBlock][key2].sort((a: string[], b: string[]) => a[0] > b[0] ? 1 : -1);
-        //       result[key][keyBlock][key2] = result[key][keyBlock][key2].map((x: string[]) => x[1]);
-        //     } else if (key2 == 'list_custom') {
-        //       result[key][keyBlock][key2] = Object.entries(result[key][keyBlock][key2]);
-        //       result[key][keyBlock][key2].sort((a: string[], b: string[]) => a[0] > b[0] ? 1 : -1);
-        //       result[key][keyBlock][key2] = result[key][keyBlock][key2].map((x: string[]) => Object.values(x[1]));
-        //     }
-        //   }
-        //   // result[key][i][1] = Object.entries(result[key][i][1]);
-        // }
       }
-      // console.log(result);
       return result;
     }).catch((error: Error) => {
       throw new Error(error.message);

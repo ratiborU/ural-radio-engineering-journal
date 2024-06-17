@@ -5,32 +5,20 @@ import { getArticles } from "./AticleApi";
 import { IArticle } from "@/lib/typesNew";
 
 
-export const getIssues = async (search: string): Promise<IIssue[]> => {
-  if (search) {
-    // const response = await axios.get(`${serverUrl}/api/v1/editions/get/all`)
-    //   .then((response) => {
-    //     return response["data"]["data"];
-    //   }).catch((error: Error) => {
-    //     console.log(error.message);
-    //     throw new Error(error.message);
-    //   }); 
-
-    // const responseArticles = await getArticlesBySearch(search);
-
-    // return response;
-    return []
-  }
-  const response = await axios.get(`${serverUrl}/api/v1/editions/get/all`)
+export const getIssues = async (offset: number, limit: number): Promise<{allCount: number, data: IIssue[]}> => {
+  let allCount = 0;
+  const response = await axios.get(`${serverUrl}/api/v1/editions/get/all?offset=${offset}&limit=${limit}`)
     .then((response) => {
+      allCount = response.data.all_count;
       return response["data"]["data"].sort((issue: IIssue, issue2: IIssue) => {
         return issue2.year - issue.year || issue2.volume - issue.volume || issue2.number - issue.number
-        return 1;
       });;
     }).catch((error: Error) => {
-      console.log(error.message);
+      console.log(error);
       throw new Error(error.message);
     }); 
-  return response;
+    console.log(response);
+  return {allCount: allCount, data: response};
 }
 
 export const getIssueById = async (id: string): Promise<IIssue> => {
@@ -75,3 +63,13 @@ export const getArticlesBySearch = async (search: string): Promise<IArticle[]> =
   console.log(articles);
   return articles;
 }
+
+
+fetch('http://158.160.173.39:8080/api/v1/editions/get/9', {
+  method: 'GET',
+headers: {
+ 'Content-Type': 'application/json',
+}})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error(error));
