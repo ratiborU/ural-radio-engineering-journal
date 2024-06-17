@@ -48,8 +48,8 @@ const SideBar = () => {
         </button>
       </a>
       
-      <p className="sidebar__text">ISSN онлайн-версии:2588-0462</p>
-      <p className="sidebar__text">ISSN печатной версии:2588-0454</p>
+      <p className="sidebar__text"><FormattedMessage id='sidebar-sidebar__issn-online' /></p>
+      <p className="sidebar__text"><FormattedMessage id='sidebar-sidebar__issn-print' /></p>
     </div>
   );
 };

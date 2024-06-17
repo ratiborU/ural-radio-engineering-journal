@@ -70,7 +70,7 @@ const ForAuthorspage = () => {
           <p>{staticAuthors[lang.toLowerCase()][2][1].text}</p>
         </div>
         <div className="paragraph__text paragraph__text_list">
-          {staticAuthors[lang.toLowerCase()][2][1][lang == "Ru"? "list_custom": "list"].map((item: string[], i: number) => 
+          {staticAuthors[lang.toLowerCase()][2][1].list_custom.map((item: string[], i: number) => 
             <p key={i}>
               <span className='paragraph__number'>{item[0]}</span>
               {item[1]}

@@ -6,6 +6,8 @@ import Issue from '@/components/Issue';
 import SearchInput from '@/components/SearchInput';
 import ArticleSearch from '@/components/ArticleSearch';
 import { IIssue } from '@/lib/typesNew';
+import { getArticlesSearch } from '@/data/AticleApi';
+import { FormattedMessage } from 'react-intl';
 
 const CatalogPage = () => {
   const [update, setUpdate] = useState('')
@@ -17,6 +19,11 @@ const CatalogPage = () => {
   const [offset, setOffset] = useState(0);
   const [limit, setlimit] = useState(9);
   const [issuesList, setIssuesList] = useState<IIssue[]>([])
+
+  const [title, setTitle] = useState(true);
+  const [annotation, setAnnotation] = useState(false);
+  const [authors, setAuthors] = useState(false);
+  const [keywords, setKeywords] = useState(false);
 
 
 
@@ -32,7 +39,11 @@ const CatalogPage = () => {
 
   const { data: articlesSearch, status: articlesSearchStatus, error: articlesSearchError } = useQuery({
     queryKey: ['articlesSearch'],
-    queryFn: async () => await getArticlesBySearch(update),
+    queryFn: async () => {
+      const titleSearch = title || annotation || authors || keywords;
+      const response = await getArticlesSearch(update, title || !titleSearch, annotation, authors, keywords)
+      return response;
+    },
     staleTime: Infinity
   });
 
@@ -76,8 +87,15 @@ const CatalogPage = () => {
   if (isSearching) {
     return (
       <>
-        <SearchInput setUpdate={setUpdate} setIsAppdating={setIsAppdating} setIsSearching={setIsSearching}/>
-        <button className='search__back-button' onClick={onButtonBackToIssues} type='button'>Вернуться к выпускам</button>
+        <SearchInput setUpdate={setUpdate} setIsAppdating={setIsAppdating} setIsSearching={setIsSearching} onButtonBackToIssues={onButtonBackToIssues}/>
+        <div className="catalog__search-buttons">
+          <p><FormattedMessage id='catalog-catalog__item-button-search-text' />:</p>
+          <button className={!title? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setTitle(!title)} type='button'><FormattedMessage id='catalog-catalog__item-button-search1' /></button>
+          <button className={!annotation? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setAnnotation(!annotation)} type='button'><FormattedMessage id='catalog-catalog__item-button-search2' /></button>
+          <button className={!authors? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setAuthors(!authors)} type='button'><FormattedMessage id='catalog-catalog__item-button-search3' /></button>
+          <button className={!keywords? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setKeywords(!keywords)} type='button'><FormattedMessage id='catalog-catalog__item-button-search4' /></button>
+        </div>
+        {/* <button className='search__back-button' onClick={onButtonBackToIssues} type='button'>Вернуться к выпускам</button> */}
         {articlesSearchStatus == 'success' && articlesSearch?.map(article => <ArticleSearch key={article["id"]} article={article}/>)}
         {articlesSearchStatus == 'success' && articlesSearch.length == 0 && <p>Ничего не найдено</p>}
       </>
@@ -88,6 +106,14 @@ const CatalogPage = () => {
   return (
     <>
       <SearchInput setUpdate={setUpdate} setIsAppdating={setIsAppdating} setIsSearching={setIsSearching}/>
+      
+      <div className="catalog__search-buttons">
+          <p><FormattedMessage id='catalog-catalog__item-button-search-text' />:</p>
+          <button className={!title? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setTitle(!title)} type='button'><FormattedMessage id='catalog-catalog__item-button-search1' /></button>
+          <button className={!annotation? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setAnnotation(!annotation)} type='button'><FormattedMessage id='catalog-catalog__item-button-search2' /></button>
+          <button className={!authors? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setAuthors(!authors)} type='button'><FormattedMessage id='catalog-catalog__item-button-search3' /></button>
+          <button className={!keywords? 'catalog__search-button' : 'catalog__search-button-pressed'} onClick={() => setKeywords(!keywords)} type='button'><FormattedMessage id='catalog-catalog__item-button-search4' /></button>
+        </div>
       <div className="catalog">
         {issues!.data.map((issue, id) => {
           return <Issue key={id} issue={issue}/>

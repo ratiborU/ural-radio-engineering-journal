@@ -86,6 +86,13 @@ export const messages = {
 
 
     "catalog-catalog__item-button": "Read",
+    "catalog-catalog__item-button-search": "Search",
+    "catalog-catalog__item-button-search-back": "To issues",
+    "catalog-catalog__item-button-search1": "Title",
+    "catalog-catalog__item-button-search2": "Annotation",
+    "catalog-catalog__item-button-search3": "Authors",
+    "catalog-catalog__item-button-search4": "Keywords",
+    "catalog-catalog__item-button-search-text": "Search by",
 
 
     "issue-issue__title": "Content",
@@ -107,6 +114,10 @@ export const messages = {
     "article-article__comments-subtitle2": "Your comment",
     "article-article__comment-button": "Send",
     "article-article__comment-textarea": "Write a comment...",
+
+    
+    "sidebar-sidebar__issn-online": "Online version ISSN:2588-0462",
+    "sidebar-sidebar__issn-print": "Print version ISSN:2588-0462",
   },
   [LOCALES.RUSSIAN]: {
     "mainpage-paragraph__title1": "О журнале",
@@ -193,6 +204,14 @@ export const messages = {
 
 
     "catalog-catalog__item-button": "Читать",
+    "catalog-catalog__item-button-search": "Поиск",
+    "catalog-catalog__item-button-search-back": "К выпускам",
+    "catalog-catalog__item-button-search1": "Заголовок",
+    "catalog-catalog__item-button-search2": "Аннотация",
+    "catalog-catalog__item-button-search3": "Авторы",
+    "catalog-catalog__item-button-search4": "Ключевые слова",
+    "catalog-catalog__item-button-search-text": "Осуществить поиск по",
+
 
 
     "issue-issue__title": "Содержание",
@@ -216,5 +235,8 @@ export const messages = {
     "article-article__comments-subtitle2": "Ваш комментарий",
     "article-article__comment-button": "Отправить",
     "article-article__comment-textarea": "Введите комментарий...",
+
+    "sidebar-sidebar__issn-online": "ISSN онлайн-версии:2588-0462",
+    "sidebar-sidebar__issn-print": "ISSN печатной версии:2588-0454",
   }
 }

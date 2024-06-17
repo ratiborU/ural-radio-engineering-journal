@@ -12,7 +12,7 @@ export const getIssues = async (offset: number, limit: number): Promise<{allCoun
       allCount = response.data.all_count;
       return response["data"]["data"].sort((issue: IIssue, issue2: IIssue) => {
         return issue2.year - issue.year || issue2.volume - issue.volume || issue2.number - issue.number
-      });;
+      });
     }).catch((error: Error) => {
       console.log(error);
       throw new Error(error.message);
