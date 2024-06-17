@@ -1,9 +1,9 @@
 'use client'
 import React, { useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getArticleById } from '@/data/AticleApi';
 import { getComments, createComment } from '@/data/CommentApi';
-import { IComment, IRuEng } from '@/lib/types';
+import { IComment, IRuEng } from '@/lib/typesNew';
 import { FormattedMessage } from 'react-intl';
 import { useLanguageContext } from '@/i18n/languageContext';
 import Comment from '@/components/Comment';
@@ -23,8 +23,11 @@ const commentSchema = z.object({
 type ICommentSchema = z.infer<typeof commentSchema>;
 
 const ArticlePageClient = ({ params }: { params: { id: string } }) => {
-  const [commentList, setCommentList] = useState<IComment[]>([])
+  const [offset, setOffset] = useState(0);
+  const [limit, setlimit] = useState(10);
+  const [commentsList, setCommentsList] = useState<IComment[]>([])
   const {lang} = useLanguageContext();
+  const queryClient = useQueryClient();
 
   const {status: articleStatus, data: article, error: articleError} = useQuery({
     queryFn: async () => await getArticleById(params.id),
@@ -33,8 +36,13 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
   });
 
   const {status: commentsStatus, data: comments, error: commentsError} = useQuery({
-    queryFn: async () => await getComments(Number(params.id), true, 0, 10),
-    queryKey: ["pdf", params.id],
+    queryFn: async () => {
+      const response = await getComments(Number(params.id), true, offset, limit)
+      setCommentsList([...commentsList, ...response.data]);
+      setOffset(offset + limit);
+      return {...response, data: [...commentsList, ...response.data]}
+    },
+    queryKey: ["comments", params.id],
     staleTime: Infinity
   });
 
@@ -57,10 +65,14 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
     resetComment();
   }
 
+  const handleButtonAddComments = () => {
+    queryClient.invalidateQueries({queryKey: ["comments", params.id]});
+  }
+
   if (articleError) {
     return <p>Произошла ошибка</p>
   }
-  if (articleStatus == 'pending') {
+  if (articleStatus == 'pending' || commentsStatus == 'pending') {
     return <p>Загрузка...</p>;
   }
 
@@ -116,12 +128,11 @@ const ArticlePageClient = ({ params }: { params: { id: string } }) => {
               
               
         <p className='article__title'><FormattedMessage id='article-article__comments-title'/></p>
-        {commentsStatus == 'pending'
-          ? <p>загрузка</p>
-          : <div className="article__comments">
-              {comments?.data?.map((comment, commentId) => <Comment key={commentId} comment={comment}/>)}
-            </div>
-        }
+        <div className="article__comments">
+          {comments?.data?.map((comment, commentId) => <Comment key={commentId} comment={comment}/>)}
+        </div>
+        {comments && comments!.data.length < comments!.allCount && <button className='catalog__add-issues-button' onClick={() => handleButtonAddComments()}>Загрузить ещё</button>}
+
   
         <p className='article__subtitle'><FormattedMessage id='article-article__comments-subtitle1'/></p>
         <p className='article__comment-title'><FormattedMessage id='article-article__comments-subtitle2'/></p>

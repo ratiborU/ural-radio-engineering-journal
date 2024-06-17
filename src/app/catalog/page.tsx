@@ -119,7 +119,7 @@ const CatalogPage = () => {
         {/* <button className='search__back-button' onClick={onButtonBackToIssues} type='button'>Вернуться к выпускам</button> */}
         {articlesSearchStatus == 'success' && articlesSearch.data?.map(article => <ArticleSearch key={article["id"]} article={article}/>)}
         {articlesSearchStatus == 'success' && articlesSearch.data.length == 0 && <p>Ничего не найдено</p>}
-        {articlesSearch!.data.length < articlesSearch!.allCount && <button className='catalog__add-issues-button' onClick={() => handleButtonAddArticles()}>Загрузить ещё</button>}
+        {articlesSearch && articlesSearch!.data.length < articlesSearch!.allCount && <button className='catalog__add-issues-button' onClick={() => handleButtonAddArticles()}>Загрузить ещё</button>}
       </>
     )
   }
