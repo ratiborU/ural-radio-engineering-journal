@@ -27,7 +27,6 @@ const ForAuthorspage = () => {
     return <>загрузка</>
   }
 
-  console.log(staticAuthors);
   return (
     <>
       <div className='image'></div>

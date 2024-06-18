@@ -5,9 +5,7 @@ import { wordpressUrl } from "@/lib/utils";
 export const getAuthorsStatic = async () => {
   const response = await axios.get(`${wordpressUrl}/wp-json/wp/v2/posts?slug=static_for_authors&_fields=acf`)
     .then((response) => {
-      console.log(response);
       let result = response.data[0].acf;
-      console.log(result);
       for (const key of Object.keys(result)) {
         result[key] = Object.entries(result[key]);
         const length = Object.entries(result[key]).length;
@@ -57,7 +55,6 @@ export const getAboutJournalStatic = async () => {
 
 
 
-      console.log(result);
       return result;
     }).catch((error: Error) => {
       throw new Error(error.message);
